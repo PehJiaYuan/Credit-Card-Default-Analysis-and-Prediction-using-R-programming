@@ -10,6 +10,7 @@ In an increasingly competitive market, banks are under pressure to attract and r
 __Solution Plan__
 To address this challenge, I will leverage on advanced analytics and statistical modeling using R proves to be a strategic solution. Specifically, Logistic Regression and Classification and Regression Trees (CART) in R enable a comprehensive evaluation of the likelihood of credit card default among customers. 
 
+-------
 
 __Exploratory Data Analysis and Preparation__
 
@@ -22,6 +23,7 @@ __Exploratory Data Analysis and Preparation__
   
 Findings: There are no duplicates or missing values. All the variables are all numeric data types. However variables such as SEX, EDUCATION, MARRIAGE, PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6, default_payment_next_month are categorical features. So we have to convert these features in categorical.
 
+-------
 + Check whether dataset is balanced.
 
 <div align="left"><img src="images/def_nondef_plot.png"/></div>
