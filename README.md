@@ -18,13 +18,13 @@ __Exploratory Data Analysis and Preparation__
 <div align="left"><img src="images/data_types.png"/></div>
 <div align="left"><img src="images/duplicate_missing.png"/></div>
 
-<br
+<br>
   
 Findings: There are no duplicates or missing values. All the variables are all numeric data types. However variables such as SEX, EDUCATION, MARRIAGE, PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6, default_payment_next_month are categorical features. So we have to convert these features in categorical.
 
 + Check whether dataset is balanced.
 
-div align="left"><img src="images/def_nondef_plot.png"/></div>
+<div align="left"><img src="images/def_nondef_plot.png"/></div>
 <div align="left"><img src="images/prop_table.png"/></div>
 
 Findings: I discovered that the data is highly unbalanced. Approximately 77% of the data is non default while only around 22% of the data is classified as default. These would lead to a relatively high baseline accuracy and potentially mislead the predictive model. In order to avoid this issue, I decided to undersample the dataset for the trainset later on to make sure default and non-default creditors are take approximately the same weights, which could ensure the effectiveness of the predictive models. 
