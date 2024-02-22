@@ -18,6 +18,8 @@ __Exploratory Data Analysis and Preparation__
 <div align="left"><img src="images/data_types.png"/></div>
 <div align="left"><img src="images/duplicate_missing.png"/></div>
 
+<br
+  
 Findings: There are no duplicates or missing values. All the variables are all numeric data types. However variables such as SEX, EDUCATION, MARRIAGE, PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6, default_payment_next_month are categorical features. So we have to convert these features in categorical.
 
 + Check whether dataset is balanced.
