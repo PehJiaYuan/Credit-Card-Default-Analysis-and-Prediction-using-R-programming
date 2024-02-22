@@ -29,11 +29,16 @@ Findings: There are no duplicates or missing values. All the variables are all n
 <div align="left"><img src="images/def_nondef_plot.png"/></div>
 <div align="left"><img src="images/prop_table.png"/></div>
 
+<br>
+
 Findings: I discovered that the data is highly unbalanced. Approximately 77% of the data is non default while only around 22% of the data is classified as default. These would lead to a relatively high baseline accuracy and potentially mislead the predictive model. In order to avoid this issue, I decided to undersample the dataset for the trainset later on to make sure default and non-default creditors are take approximately the same weights, which could ensure the effectiveness of the predictive models. 
 
+-------
 + Exploring the relationships between the different different features and target variable (default.payment.next.month)
 
 <div align="left"><img src="images/def_age.png"/></div>
+
+<br>
 
 Findings: The graph has a right skewed distribution. The number of clients defaulting the payment next month decreases as age increases. Thus age is a crucial feature to predict the default payment for next month.
 
