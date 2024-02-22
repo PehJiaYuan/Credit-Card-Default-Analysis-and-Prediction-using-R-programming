@@ -1,1 +1,172 @@
+library(ROSE)
+library(tidyverse)
+library(caTools)
+library(car)
+library(caret)
+library(ggplot2)
+library(boot)
+
+# Load dataset
+cc_data <- read.csv("UCI_Credit_Card.csv")
+
+# Data Exploration and Preparation
+
+# Check for the data type of the variables and for any missing values
+
+glimpse(cc_data)
+summary(cc_data)
+any(duplicated(cc_data))(cc_data)
+missing_values <- sum(is.na(cc_data))
+print(missing_values)
+
+#Realise that pay is equal to 0 then 2 cross ref decided to rename it to pay = 1 for easy understanding
+cc_data <- cc_data %>% 
+  rename(PAY_1 = PAY_0)
+
+# Data is highly unbalanced when setting the train and test set got to undersample/oversample
+default_freq <- table(cc_data$default)
+print(default_freq)
+barplot(default_freq, names.arg = c("Non-Default", "Default"), col = c("blue", "red"),
+        main = "Default vs Non-Default Frequency",
+        xlab = "Default Status",
+        ylab = "Frequency",
+        beside = TRUE)
+prop.table(table(cc_data$default.payment.next.month))
+
+# check relationship between age grp and defaulting 
+cc_data %>%
+  ggplot(aes(x = AGE, fill = factor(default.payment.next.month))) +
+  geom_histogram(binwidth = 1, alpha = 0.7, color = "black") +
+  labs(title = "Relationship between Age & Default Payment",
+       x = "Age",
+       y = "Frequency") +
+  scale_fill_manual(values = c("blue", "red")) +
+  theme_minimal() +
+  guides(fill = guide_legend(title = "Default Payment"))
+
+# relationship between marriage, age and default payment
+cc_data %>%
+  ggplot(aes(x = AGE)) +
+  geom_histogram(binwidth = 1, alpha = 0.7, color = "lightblue") +
+  facet_grid(default.payment.next.month ~ MARRIAGE, scales = "free_y") +
+  labs(title = "Faceted Histogram of Age by Default Payment and Marriage",
+       x = "Age",
+       y = "Frequency") +
+  theme_minimal()
+
+# relationship between default payment, age and sex
+cc_data %>%
+  ggplot(aes(x = AGE)) +
+  geom_histogram(binwidth = 1, alpha = 0.7, color = "lightblue") +
+  facet_grid(default.payment.next.month ~ SEX, scales = "free_y") +
+  labs(title = "Faceted Histogram of Age by Default Payment and Sex",
+       x = "Age",
+       y = "Frequency") +
+  theme_minimal()
+
+set.seed(2350)
+# Creating Training and Test Samples
+# Use 70% of data set as training set and remaining 30% as testing set
+split <- sample.split(cc_data$default.payment.next.month,SplitRatio = 0.70)
+train_set <- subset(cc_data, split == TRUE)
+test_set <- subset(cc_data,split == FALSE)
+
+train_set_freq <-table(train_set$default.payment.next.month)
+print(train_set_freq)
+
+# to do undersampling so is 1:1 
+under_sample_train_set <- ovun.sample(default.payment.next.month~., data=train_set, method = "under", N = 9290)$data
+table(under_sample_train_set$default.payment.next.month)
+
+# Fit logistic regression model using train set ID+SEX+EDUCATION+MARRIAGE+AGE+PAY_1+PAY_2+PAY_3+PAY_4+PAY_5+PAY_6+BILL_AMT1+PAY_AMT1+PAY_AMT2+PAY_AMT3+PAY_AMT4+PAY_AMT5+PAY_AMT6+BILL_AMT1
+train_lm_all <-glm(default.payment.next.month ~. , family = binomial,data = under_sample_train_set)
+summary(train_lm_all)
+train_lm <- glm(default.payment.next.month ~ID+SEX+EDUCATION+MARRIAGE+AGE+ PAY_1+PAY_2+PAY_3+PAY_4+PAY_5+PAY_6+BILL_AMT1+PAY_AMT1+PAY_AMT2+PAY_AMT3+PAY_AMT4+PAY_AMT5+PAY_AMT6+BILL_AMT1 , family = binomial,data = under_sample_train_set)
+summary(train_lm)
+
+
+# Calculate VIF values to check for multicollinearity issue
+vif(train_lm_all)
+vif(train_lm)
+
+# Trainset Error
+RMSE_train_lm <- sqrt(mean(residuals(train_lm)^2))
+print(RMSE_train_lm)
+summary(abs(residuals(train_lm)))
+
+
+# Fit logistic regression model using test set
+predict_lm <- predict(train_lm, newdata = test_set)
+testset_error <- test_set$default.payment.next.month - predict_lm
+RMSE_testset <- sqrt(mean(testset_error^2))
+print(RMSE_testset)
+summary(abs(testset_error))
+
+# Model Diagnostics to analyse how well model performs on test dataset
+
+predict_lm_cm <- predict(train_lm, newdata = test_set, type= "response")
+threshold <- 0.5  # Adjust the threshold as needed
+predicted_classes <- ifelse(predict_lm > threshold, 1, 0)
+ 
+# Create a confusion matrix
+conf_matrix <- confusionMatrix(factor(predicted_classes), factor(test_set$default.payment.next.month))
+
+# Print the confusion matrix
+print(conf_matrix)
+
+# CART ANALYSIS
+
+library(rpart)
+library(rpart.plot)
+
+set.seed(2350)
+
+#Cart analysis Train Model
+train_cart <-rpart( default.payment.next.month~ ., data = under_sample_train_set, method = 'anova', control =rpart.control(minsplit = 2, cp=0))
+printcp(train_cart)
+
+
+# Extract the Optimal Tree
+CVerror.cap <- train_cart$cptable[which.min(train_cart$cptable[,"xerror"]), "xerror"] + train_cart$cptable[which.min(train_cart$cptable[,"xerror"]), "xstd"]
+
+# Find the optimal CP region whose CV error is just below CVerror.cap in maximal tree train_cart.
+i <- 1; j<- 4
+while (train_cart$cptable[i,j] > CVerror.cap) {
+  i <- i + 1
+}
+
+# Get geometric mean of the two identified CP values in the optimal region if optimal tree has at least one split.
+cp.opt = ifelse(i > 1, sqrt(train_cart$cptable[i,1] * train_cart$cptable[i-1,1]), 1)
+
+#plot the cart tree
+pruned_cart <-prune(train_cart,cp=cp.opt)
+printcp(pruned_cart,digits=3)
+rpart.plot(pruned_cart,nn=T,main="Optimal Tree for Credit Card Data")
+
+#Cart Test Model
+library(Metrics)
+prediction_cart <- predict(pruned_cart, newdata = test_set)
+
+# Extract the actual target values from the test dataset
+actual_values_cart <- test_set$default.payment.next.month
+
+# Calculate RMSE using the 'rmse' function from the 'Metrics' package
+rmse_value_cart <- rmse(prediction_cart, actual_values_cart)
+
+# Print the RMSE
+print(rmse_value_cart)
+
+# Cart Test Model
+# Convert probabilities to class labels using a threshold of 0.5
+predicted_classes <- ifelse(prediction_cart > 0.5, 1, 0)
+print(predicted_classes)
+# Extract the actual target values from the test dataset
+actual_values_cart_factor <- as.factor(test_set$default.payment.next.month)
+
+# Evaluate the model
+conf_matrix_cart <- confusionMatrix(factor(predicted_classes), actual_values_cart_factor)
+
+print(conf_matrix_cart)
+print(conf_matrix)
+
 
