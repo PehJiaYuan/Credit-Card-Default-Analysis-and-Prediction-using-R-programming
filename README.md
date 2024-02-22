@@ -2,6 +2,9 @@
 
 __Tools used : R Programming (Logistic Regression, CART)__
 
+__Data Set: https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset__
+
+
 __Business Problem Scenario__
 -------
 In an increasingly competitive market, banks are under pressure to attract and retain customers by offering credit card products with attractive terms and rewards. However, the allure of credit comes with inherent risks, particularly in times of economic volatility or changing consumer behavior. The ability to effectively assess and manage default risks is crucial for maintaining the bank's financial stability and competitive edge.
