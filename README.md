@@ -4,10 +4,10 @@ __Tools used : R Programming (Logistic Regression, CART)__
 
 __Business Problem Scenario__
 -------
-In an increasingly competitive market, banks are under pressure to attract and retain customers by offering credit card products with attractive terms and rewards. However, the allure of credit comes with inherent risks, particularly in times of economic volatility or changing consumer behavior. The ability to effectively assess and manage these risks is crucial for maintaining the bank's financial stability and competitive edge.
+In an increasingly competitive market, banks are under pressure to attract and retain customers by offering credit card products with attractive terms and rewards. However, the allure of credit comes with inherent risks, particularly in times of economic volatility or changing consumer behavior. The ability to effectively assess and manage default risks is crucial for maintaining the bank's financial stability and competitive edge.
 
 
-__Proposed Solution__
+__Solution Plan__
 To address this challenge, I will leverage on advanced analytics and statistical modeling using R proves to be a strategic solution. Specifically, Logistic Regression and Classification and Regression Trees (CART) in R enable a comprehensive evaluation of the likelihood of credit card default among customers. 
 
 
