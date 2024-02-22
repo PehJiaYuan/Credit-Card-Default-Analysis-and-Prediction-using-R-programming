@@ -12,6 +12,19 @@ To address this challenge, I will leverage on advanced analytics and statistical
 
 -------
 
+__Evaluation between Logistic Regression and Decision Tree Analysis (CART Model)__
+  + While the CART Model has a lower sensitivity (True Postive) compared to the Logistic Regression Model, the CART Model has a higher specificity (True Negative). Since we are predicting the True Negative (customers defaulting payment), the CART model is better in predicting and accessing the risk of the clents defaulting payments. Moreover the CART Model has a lower RMSE compared to the Logistic Regression Model
+
+__Insights from modeling__
+  + The cart model provides insights into the important features affecting credit default. Notably the repayment status from July to September emerge as crucial predictors.This aligns with the intuitive understanding that an increasing delay in repayments raises the likelihood of credit default, and conversely, prompt repayments reduce this risk.
+  + Additionally credit limit(limit_bal) and bill amount in September(BILLAMT1) are identified as significant predictors. This is line with having higher credit limit usually suggests a more affluent environment, contributing to a lower risk of credit default. Similary, people with higher bill amount in september are more likely to default in next month payment since it signals financial stress or challenges in managing expenses, making it a key predictor of potential default.
+  + Furthermore, age and whether people are married are identified as predictors as well. Age signifies a potential correlation, as older individuals may have accumulated more resources and place a higher value on their reputation, reducing the likelihood of credit default. Individuals who are married tend to exhibit a lower likelihood of defaulting on payments, and this phenomenon can be attributed to several factors. Marriage often brings about shared financial responsibilities and a joint commitment to managing household finances. The presence of a partner can create a support system that encourages responsible financial behavior, as couples typically collaborate on budgeting, savings, and making major financial decisions.
+
+__Reflection__
+  + An essential avenue for enhancing the predictive model lies in augmenting the data source to incorporate additional critical information currently absent from the dataset. Notably, aspects such as the present economic conditions of individual creditors, encompassing factors like incomes and employment status, as well as the valuation of non-liquid assets owned by creditors, remain unaccounted for. The inherent limitations of the existing dataset contribute to a reduction in the predictive power of the model and introduce increased uncertainty.
+
+-------
+
 __Exploratory Data Analysis and Preparation__
 
 + Check the data for any duplicates, missing values and datatypes of the variables
@@ -64,7 +77,7 @@ Findings: From the graph, females of age 20-30 have a higher tendency to default
 
 -------
 
-__Logistic regression__
+__Logistic Regression Model__
 
 <div align="left"><img src="images/under_sample.png"/></div>
 
@@ -86,7 +99,7 @@ To evaluate the Logistic Regression Model, I calculated RMSE and the absolute er
 
 Based on the confusion matrix, the accuracy of the model is approximately 80.57%, indicating that the model is accurate in predicting both classes. Sensitivity (True Positive Rate): 0.9127 - This indicates the proportion of actual positives correctly predicted by the model. Specificity (True Negative Rate): 0.4289 - This represents the proportion of actual negatives correctly predicted by the model. A lower specificity may indicate a higher rate of false positives. Considering the nature of predicting default payments (class 1), it's crucial to have a high sensitivity to correctly identify customers at risk of default.  However, the specificity is lower (0.4289), indicating a higher rate of false positives.
 
-
+-------
 __Decision Tree Analysis (CART Model)__
 
 ![image](https://github.com/PehJiaYuan/Credit-Card-Default-Analysis-and-Prediction-using-R-programming/assets/160102531/766411bf-a891-4ebf-a2b5-11db6e926ad4)
@@ -104,12 +117,4 @@ To evaluate the CART model, I calculated the RMSE. The RMSE of the CART model is
 Based on the confusion matrix, the overall accuracy of the model is around 76.01%. Thus indicating that 76.01% of the predictions are correct. Sensitivity (True Positive Rate): The sensitivity is 81.42%, suggesting that the model correctly identifies about 81.42% of the instances where the true class is 1 (default). Specificity (True Negative Rate): The specificity is 56.96%, indicating that the model correctly identifies about 56.96% of the instances where the true class is 0 (non-default). Overall, the evaluation metrics suggest a moderate performance of the CART model in predicting class 1 (default). It correctly identifies a significant portion of true negative (default payment) 
 
 
-__Evaluation between Logistic Regression and Decision Tree Analysis (CART Model)__
-While Decision Tree Analysis has a lower RMSE and higher specificity rate compared to the logistic model thus the CART Model will be better in predicting and accessing the risk of clients defaulting payments 
 
-__Insights from modeling__
-The cart model provides insights into the important features affecting credit default. Notably the repayment status from July to September emerge as crucial predictors.This aligns with the intuitive understanding that an increasing delay in repayments raises the likelihood of credit default, and conversely, prompt repayments reduce this risk.
-Additionally credit limit(limit_bal) and bill amount in September(BILLAMT1) are identified as significant predictors. This is line with having higher credit limit usually suggests a more affluent environment, contributing to a lower risk of credit default. Similary, people with higher bill amount in september are more likely to default in next month payment since it signals financial stress or challenges in managing expenses, making it a key predictor of potential default. Additionally, age and whether people are married are identified as predictors as well. Age signifies a potential correlation, as older individuals may have accumulated more resources and place a higher value on their reputation, reducing the likelihood of credit default. Individuals who are married tend to exhibit a lower likelihood of defaulting on payments, and this phenomenon can be attributed to several factors. Marriage often brings about shared financial responsibilities and a joint commitment to managing household finances. The presence of a partner can create a support system that encourages responsible financial behavior, as couples typically collaborate on budgeting, savings, and making major financial decisions.
-
-__Reflection__
-An essential avenue for enhancing the predictive model lies in augmenting the data source to incorporate additional critical information currently absent from the dataset. Notably, aspects such as the present economic conditions of individual creditors, encompassing factors like incomes and employment status, as well as the valuation of non-liquid assets owned by creditors, remain unaccounted for. The inherent limitations of the existing dataset contribute to a reduction in the predictive power of the model and introduce increased uncertainty.
