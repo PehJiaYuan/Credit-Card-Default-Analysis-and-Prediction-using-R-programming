@@ -34,7 +34,7 @@ Findings: There are no duplicates or missing values. All the variables are all n
 Findings: I discovered that the data is highly unbalanced. Approximately 77% of the data is non default while only around 22% of the data is classified as default. These would lead to a relatively high baseline accuracy and potentially mislead the predictive model. In order to avoid this issue, I decided to undersample the dataset for the trainset later on to make sure default and non-default creditors are take approximately the same weights, which could ensure the effectiveness of the predictive models. 
 
 -------
-+ Exploring the relationships between the different different features and target variable (default.payment.next.month)
++ Exploring the relationships between age and target variable (default.payment.next.month)
 
 <div align="left"><img src="images/def_age.png"/></div>
 
@@ -42,13 +42,27 @@ Findings: I discovered that the data is highly unbalanced. Approximately 77% of 
 
 Findings: The graph has a right skewed distribution. The number of clients defaulting the payment next month decreases as age increases. Thus age is a crucial feature to predict the default payment for next month.
 
+-------
+
++ Exploring the relationships between age, marriage and target variable (default.payment.next.month)
+  
 <div align="left"><img src="images/age_marriage_def.png"/></div>
+
+<br>
 
 Findings: From the above plot, it can inferred that married people between the age of 30-50 and unmarried peope of age 20-30 have a tendency to default payment. Moreover, unmarried clients have a higher proability to default compared to married clients. 
 
+-------
+
++ Exploring the relationships between sex and target variable (default.payment.next.month)
+
 <div align="left"><img src="images/sex_age.png"/></div>
 
+<br>
+
 Findings: From the graph, females of age 20-30 have a higher tendency to default payment compared to males in all age groups. 
+
+-------
 
 __Logistic regression__
 
