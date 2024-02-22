@@ -16,7 +16,7 @@ __Exploratory Data Analysis and Preparation__
 + Check the data for any duplicates, missing values and datatypes of the variables
 
 <div align="left"><img src="images/data_types.png"/></div>
-<div align="left"><img src="images/duplicates_missing.png"/></div>
+<div align="left"><img src="images/duplicate_missing.png"/></div>
 
 Findings: There are no duplicates or missing values. All the variables are all numeric data types. However variables such as SEX, EDUCATION, MARRIAGE, PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6, default_payment_next_month are categorical features. So we have to convert these features in categorical.
 
